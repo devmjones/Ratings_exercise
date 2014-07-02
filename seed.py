@@ -28,9 +28,11 @@ def load_movies(session):
 
         movie_title = movie_data[1]
         #line 31 takes the last 6 char off the title, to remove the release date.
-        movie_title = movie_title[:-6]
+        movie_title = movie_title[:-7]
         #line 33 compensates for any latin flavor our titles may have
         movie_title = movie_title.decode("latin-1")
+        #line 35 didn't work
+        # movie_title = decode_movie_title.encode("utf-8")
         #line 35 states that if our relased_at is an empty string, fill it with some crap
         if movie_data[2] == "":
             movie_data[2] = "01-Jan-1900"
@@ -71,7 +73,7 @@ def main(session):
     # You'll call each of the load_* functions with the session as an argument
     # these functions 'seed' the database ratings.db
     # load_users(session)
-    # load_movies(session)
+    load_movies(session)
     # load_ratings(session)    
 
 if __name__ == "__main__":
