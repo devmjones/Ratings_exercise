@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<h1> User with the id number {{user.id}} has rated {{num_ratings}} movies! </h1>
+{% for rating in ratings_list %}
+<h2>Movie {{ rating.movie.name }}, Rating {{ rating.rating }}</h2>
+{% endfor %}
+
+{% endblock %}

@@ -27,7 +27,7 @@ def load_movies(session):
         movie_data = line.split('|')
 
         movie_title = movie_data[1]
-        #line 31 takes the last 6 char off the title, to remove the release date.
+        #line 31 takes the last 7 char off the title, to remove the release date.
         movie_title = movie_title[:-7]
         #line 33 compensates for any latin flavor our titles may have
         movie_title = movie_title.decode("latin-1")
