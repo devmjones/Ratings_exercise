@@ -7,13 +7,14 @@
         <div class="navbar navbar-inverse navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
-                    <img src=""><a class="navbar-brand" href="/">Snobby Movie Watchers</a>
+                    <img src=""><a class="navbar-brand" href="/">Search</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        
-                        {% if email in session %}
-                            <li><a href="/logout">{{session[email]}} Log Out</a></li>
+                        {{ session }}
+                       
+                        {% if "email" in session %}
+                            <li><a href="/logout">Log Out</a></li>
                         {% else %}
                             <li><a href="/login">Log In</a></li>
                         {% endif %}

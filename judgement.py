@@ -8,7 +8,7 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 
 
 
-@app.route("/")
+@app.route("/sign_up")
 def index():
     user_list = model.session.query(model.User).limit(5).all()
     return render_template("index.html", user_list = user_list)
@@ -24,12 +24,24 @@ def process_signup():
     age = request.form['age']
     zipcode = request.form['zipcode']
 
+    #making a new instances of the User class called 'user'
     user = model.User(email=email, password=password, age=age, zipcode=zipcode)
-    model.session.add(user)
-    model.session.commit()
+    model.session.add(user) #adding to database session
+    model.session.commit() #saving into database
+    #id_search = model.session.query(model.User).filter_by(email=email).one()
+   
+   # user_id= id_search.id
 
-    flash("You have successfully been added to our judgemental database!")
-    return redirect("/")    
+    # we would like this to
+    # - show user profile page
+    # - on user profile page will be :
+    # --- link to list of users
+    # --- movies they've rated (with option to rerate)
+    # --- link to rate more movies
+    #"/users/949"
+    flash("You have successfully been added to our judgemental database! Please click on a movie to rate")
+    return redirect ("/movies")
+    #return redirect ("/users/%s" % user_id) 
 
 @app.route("/login", methods=["GET"])
 def show_login():
@@ -42,11 +54,16 @@ def process_login():
     password = request.form['password']
 #     """setting variable user object equal to result from sqlalchemy query"""
     user = model.session.query(model.User).filter_by(email=email).filter_by(password=password).first()
+    user_id= user.id
     if user:
-        session[email] = user
-        flash("Login successful. Welcome back!")
+        session["email"] = user
+        flash("Login successful")
         print session
-        return redirect("/users")
+        if len(user.ratings) == 0:
+            flash("You haven't rated any movies. Please click on a movie to rate.")
+            return redirect("/movies")
+        else:
+            return redirect ("/users/%s" % user_id)    
     else:
         flash("You typed something wrong. Try again")
         print session
